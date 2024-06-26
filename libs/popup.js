@@ -20,7 +20,9 @@ function startChat() {
 }
 
 function connectWebSocket() {
-  socket = new WebSocket(`ws://localhost:8080?role=buyer&name=${userName}`);
+  socket = new WebSocket(
+    `wss://hephucvu-71af3553bec0.herokuapp.com?role=buyer&name=${userName}`
+  );
 
   socket.onopen = () => {
     console.log("Connected to the WebSocket server as buyer");
@@ -67,7 +69,6 @@ function displayMessage(name, message, timestamp) {
   messageElem.classList.add("message");
   messageElem.classList.add(name === userName ? "sender" : "receiver");
 
-  // Định dạng thời gian theo múi giờ Việt Nam và chỉ hiển thị ngày tháng và giờ phút
   const date = new Date(timestamp);
   const options = {
     timeZone: "Asia/Ho_Chi_Minh",
@@ -89,7 +90,6 @@ function displayMessage(name, message, timestamp) {
   messagesDiv.appendChild(messageElem);
   messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
-  // Thêm sự kiện click để hiển thị/ẩn thời gian gửi
   messageElem.addEventListener("click", () => {
     const isTimestampVisible = timestampElem.style.display === "block";
     timestampElem.style.display = isTimestampVisible ? "none" : "block";
