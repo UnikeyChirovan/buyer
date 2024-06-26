@@ -45,7 +45,7 @@ const addToCart = (maSo, Nhom) => {
   Th_Gio_hang.innerHTML = carts.length;
 };
 
-const openDBCart = () => {
+const openCart = () => {
   if (sessionStorage.getItem("carts") != undefined) {
     window.location = `../cart/`;
   }
