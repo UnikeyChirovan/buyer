@@ -1,0 +1,316 @@
+<script src="../lang/libs.js"></script>
+<script>
+  var lang = {};
+
+  if (sessionStorage.getItem("LANG") == undefined) {
+    sessionStorage.setItem("LANG", "EN");
+  }
+  let langua = sessionStorage.getItem("LANG");
+  if (langua == "VI") {
+    lang = readFile("../lang/vi.json");
+  } else {
+    lang = readFile("../lang/en.json");
+  }
+
+  console.log(lang);
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Cart - Shop 292</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <!-- fontAwesome CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!-- myStyle CSS -->
+    <link rel="stylesheet" href="../css/myStyle.css" />
+    <link rel="stylesheet" href="../css/popup.css" />
+  </head>
+
+  <body>
+    <!-- Tiêu đề trang -->
+    <div class="container-fluid dautrang mb-1 bg-info">
+      <div class="m-0 p-0 mt-3 mb-3" id="tagStore"></div>
+      <div class="container-fluid m-0 p-0" id="tagLang"></div>
+    </div>
+    <!-- menu -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top">
+      <a class="navbar-brand store badge-danger" href="../About/"
+        >Cáo's Store</a
+      >
+      <button
+        class="navbar-toggler d-lg-none"
+        type="button"
+        data-toggle="collapse"
+        data-target="#collapsibleNavId"
+        aria-controls="collapsibleNavId"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active mr-2">
+            <a class="nav-link" href="../Home/"
+              ><script>
+                _LANG(lang.MENU.HOME);
+              </script>
+              <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item dropdown mr-2">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="dropdownId"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              ><script>
+                _LANG(lang.MENU.PRODUCTS);
+              </script></a
+            >
+            <div class="dropdown-menu" aria-labelledby="dropdownId">
+              <a class="dropdown-item" href="../mobile/"
+                ><script>
+                  _LANG(lang.PRODUCTS.MOBILE);
+                </script></a
+              >
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="../tivi/"
+                ><script>
+                  _LANG(lang.PRODUCTS.TIVI);
+                </script></a
+              >
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="../food/"
+                ><script>
+                  _LANG(lang.PRODUCTS.FOOD);
+                </script></a
+              >
+            </div>
+          </li>
+          <li class="nav-item mr-2">
+            <a class="nav-link" href="../contact/"
+              ><script>
+                _LANG(lang.MENU.CONTACT);
+              </script></a
+            >
+          </li>
+          <li class="nav-item mr-2">
+            <a class="nav-link" href="#"
+              ><script>
+                _LANG(lang.MENU["ORDER TRACKING"]);
+              </script></a
+            >
+          </li>
+          <form class="form-inline my-2 my-lg-0 search">
+            <input
+              class="form-control mr-sm-2"
+              id="Search"
+              type="text"
+              placeholder="Enter Name Product"
+              onkeyup="timTheoTen(event)"
+              placeholder="Bạn muốn tìm gì á?"
+            />
+          </form>
+          <div
+            class="d-flex align-items-center hotline"
+            id="th_email_phone"
+          ></div>
+        </ul>
+      </div>
+      <button
+        class="btn btn-danger btn-lg giohang d-flex align-items-center"
+        type="button"
+        onclick="openCart()"
+      >
+        <i class="fa fa-shopping-basket mr-2" aria-hidden="true"></i>
+        <p class="mb-0">
+          <script>
+            _LANG(lang.MENU.CART);
+          </script>
+        </p>
+        <span
+          class="badge bg-white text-dark ml-2 rounded-pill"
+          id="Th_Gio_hang"
+          >0</span
+        >
+      </button>
+    </nav>
+    <!-- Card -->
+    <div class="container-fluid">
+      <div class="row p-5">
+        <div class="col-12 col-md-9 col-xl-9">
+          <h4 class="bg-info text-white p-2">Giỏ hàng của bạn</h4>
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+                <tr class="text-center text-nowrap">
+                  <th>Hình</th>
+                  <th>Tên</th>
+                  <th>Số lượng</th>
+                  <th>Đơn giá Bán</th>
+                  <th>Thành tiền</th>
+                  <th>&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody id="thGiohangMua"></tbody>
+            </table>
+            <div class="text-right mb-2">
+              <button class="btn btn-sm btn-outline-dark" onclick="datHang()">
+                Đặt hàng
+              </button>
+              <button
+                class="btn btn-sm btn-outline-dark"
+                onclick="sessionStorage.removeItem('carts');window.history.back()"
+              >
+                Xóa Giỏ hàng
+              </button>
+              <button
+                class="btn btn-sm btn-outline-dark"
+                onclick="window.history.back()"
+              >
+                Mua tiếp
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-3 col-xl-3">
+          <h4 class="bg-info text-white p-2">Thông tin của bạn</h4>
+          <div class="form-group">
+            <input
+              type="text"
+              name=""
+              id="Th_Ho_ten"
+              class="form-control"
+              placeholder="Họ tên của bạn"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="text"
+              name=""
+              id="Th_Email"
+              class="form-control"
+              placeholder="Email của bạn"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="text"
+              name=""
+              id="Th_Dien_thoai"
+              class="form-control"
+              placeholder="Điện thoại của bạn"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="text"
+              name=""
+              id="Th_Dia_chi"
+              class="form-control"
+              placeholder="Địa chỉ giao hàng"
+            />
+          </div>
+          <div class="form-group">
+            <input
+              type="date"
+              name=""
+              id="Th_Ngay_Giao_hang"
+              class="form-control"
+              placeholder="Ngày giao hàng"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- footer -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 text-center bg-dark text-white p-3 h5">
+          &COPY;2024 - Designer TTTH - Lớp LTV javaScript 292
+        </div>
+      </div>
+    </div>
+    <div id="chatbox">
+      <div id="chatboxHeader" onclick="toggleChatbox()">Chat</div>
+      <div id="nameInputArea">
+        <input type="text" id="nameInput" placeholder="Enter your name" />
+        <button onclick="startChat()">Start Chat</button>
+      </div>
+      <div id="messages"></div>
+      <div id="inputArea">
+        <input
+          type="text"
+          id="messageInput"
+          placeholder="Type your message here"
+        />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+    <div id="toggleChat" onclick="toggleChatbox()">
+      <img
+        src="https://res.cloudinary.com/dhklbfocj/image/upload/v1719228947/images/chat.jpg"
+        class="img-fluid chatpopup"
+        alt=""
+      />
+    </div>
+    <div id="minimizeChat" onclick="minimizeChatbox()">-</div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="../node_modules/idb/lib/idb.js"></script>
+    <script src="../libs/Xu_ly_IndexedDB.js"></script>
+
+    <script src="../libs/modal.js"></script>
+    <script src="../libs/api.js"></script>
+    <script src="../libs/store.js"></script>
+
+    <script src="../libs/cart.js"></script>
+    <script src="../libs/popup.js"></script>
+    <script>
+      dbPromise = idb.open(db, 1);
+      idbObjStore.getAll("store").then((result) => {
+        store = result[0];
+        xuatCuahang(store, tagStore);
+        xuatEmnaiphone(store, th_email_phone);
+        carts = JSON.parse(sessionStorage.getItem("carts"));
+        xuatSanphamMua(carts);
+      });
+    </script>
+  </body>
+</html>

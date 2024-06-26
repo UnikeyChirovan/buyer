@@ -1,0 +1,15 @@
+{
+  "MENU": {
+    "HOME": "TRANG CHỦ",
+    "ABOUT": "GIỚI THIỆU",
+    "PRODUCTS": "SẢN PHẨM",
+    "CONTACT": "LIÊN HỆ",
+    "ORDER TRACKING": "THEO DÕI ĐƠN HÀNG",
+    "CART": "GIỎI HÀNG"
+  },
+  "PRODUCTS": {
+    "MOBILE": "ĐIỆN THOẠI",
+    "TIVI": "TIVI",
+    "FOOD": "ĐỒ ĂN"
+  }
+}

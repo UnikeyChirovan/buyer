@@ -1,0 +1,15 @@
+{
+  "MENU": {
+    "HOME": "HOME",
+    "ABOUT": "ABOUT",
+    "PRODUCTS": "PRODUCTS",
+    "CONTACT": "CONTACT",
+    "ORDER TRACKING": "ORDER TRACKING",
+    "CART": "CART"
+  },
+  "PRODUCTS": {
+    "MOBILE": "MOBILE",
+    "TIVI": "TIVI",
+    "FOOD": "FOOD"
+  }
+}

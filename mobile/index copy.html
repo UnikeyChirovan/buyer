@@ -1,0 +1,289 @@
+<script src="../lang/libs.js"></script>
+<script>
+  var lang = {};
+
+  if (sessionStorage.getItem("LANG") == undefined) {
+    sessionStorage.setItem("LANG", "EN");
+  }
+  let langua = sessionStorage.getItem("LANG");
+  if (langua == "VI") {
+    lang = readFile("../lang/vi.json");
+  } else {
+    lang = readFile("../lang/en.json");
+  }
+
+  console.log(lang);
+</script>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Mobile - Shop 292</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <!-- fontAwesome CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!-- myStyle CSS -->
+    <link rel="stylesheet" href="../css/myStyle.css" />
+    <link rel="stylesheet" href="../css/locgia.css" />
+  </head>
+
+  <body>
+    <!-- en-vi -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 col-md-10 col-xl-10"></div>
+        <div class="col-12 col-md-2 col-xl-2">
+          <img
+            src="../images/en.jpg"
+            alt=""
+            class="img-thumbnail"
+            style="width: 20%"
+            onclick="sessionStorage.setItem('LANG','EN');window.location.reload()"
+          />
+          <img
+            src="../images/vi.jpg"
+            alt=""
+            class="img-thumbnail"
+            style="width: 20%"
+            onclick="sessionStorage.setItem('LANG','VI');window.location.reload()"
+          />
+        </div>
+      </div>
+    </div>
+    <!-- Tiêu đề trang -->
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container" id="tagStore"></div>
+      <div class="text-right fixed-top shopping-cart">
+        <button class="btn btn-danger" type="button" onclick="openCart()">
+          <i class="fa fa-shopping-basket" aria-hidden="true"></i>
+          <span
+            class="badge bg-white text-dark ms-1 rounded-pill"
+            id="Th_Gio_hang"
+            >0</span
+          >
+        </button>
+      </div>
+    </div>
+    <!-- menu -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+      <a class="navbar-brand" href="../home/"> Shop 292 </a>
+      <button
+        class="navbar-toggler d-lg-none"
+        type="button"
+        data-toggle="collapse"
+        data-target="#collapsibleNavId"
+        aria-controls="collapsibleNavId"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+        <!-- <i class="fa fa-apple" aria-hidden="true"></i> -->
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavId">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="../home/"
+              ><script>
+                _LANG(lang.MENU.HOME);
+              </script>
+              <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../about/"
+              ><script>
+                _LANG(lang.MENU.ABOUT);
+              </script></a
+            >
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="dropdownId"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <script>
+                _LANG(lang.MENU.PRODUCTS);
+              </script>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownId">
+              <a class="dropdown-item" href="."
+                ><script>
+                  _LANG(lang.PRODUCTS.MOBILE);
+                </script></a
+              >
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="../tivi/"
+                ><script>
+                  _LANG(lang.PRODUCTS.TIVI);
+                </script></a
+              >
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="../food/"
+                ><script>
+                  _LANG(lang.PRODUCTS.FOOD);
+                </script></a
+              >
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="../contact/"
+              ><script>
+                _LANG(lang.MENU.CONTACT);
+              </script></a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <!-- Card -->
+    <div class="container-fluid">
+      <div class="row p-5">
+        <!-- left -->
+        <div class="col-12 col-md-3 col-xl-3">
+          <h4 class="bg-success text-white p-2">Categories</h4>
+          <ul class="list-group" id="tagLstNhom"></ul>
+          <!-- Sản phẩm Khuyến mãi -->
+          <h4 class="bg-success text-white p-2">Promotional Products</h4>
+          <div id="tagCarousel"></div>
+        </div>
+        <!-- center -->
+        <div class="col-12 col-md-9 col-xl-9">
+          <h4 class="bg-success text-white p-2" id="tagTieude">Mobile</h4>
+          <div class="row">
+            <div class="col-6">
+              <div class="price-input">
+                <div class="field">
+                  <span>Min</span>
+                  <input
+                    type="text"
+                    disabled
+                    class="input-min"
+                    id="min_Price"
+                    min="0"
+                    max="10000"
+                  />
+                  <!-- <label for="thGia" id="lblGiaMin">0 <sup>đ</sup></label> -->
+                </div>
+                <div class="separator">-</div>
+                <div class="field">
+                  <span>Max</span>
+                  <input
+                    type="text"
+                    disabled
+                    class="input-max"
+                    id="max_Price"
+                    min="0"
+                    max="10000"
+                  />
+                  <!-- <label for="thGia" id="lblGiaMax">0 <sup>đ</sup></label> -->
+                </div>
+              </div>
+              <div class="slider">
+                <div class="progress"></div>
+              </div>
+              <div class="range-input">
+                <input
+                  type="range"
+                  class="range-min"
+                  id="thGiaMin"
+                  min="0"
+                  max="10000"
+                  step="100"
+                />
+                <input
+                  type="range"
+                  class="range-max"
+                  id="thGiaMax"
+                  min="0"
+                  max="10000"
+                  step="100"
+                />
+              </div>
+            </div>
+            <div class="col-6 d-flex align-items-center">
+              <button
+                sort="1"
+                class="btn btn-sm btn-outline-danger"
+                onclick="sapXepGia(this)"
+              >
+                Giá &Downarrow;
+              </button>
+              <button
+                sort="1"
+                class="btn btn-sm btn-outline-danger"
+                onclick="sapXepTen(this)"
+              >
+                Tên &Downarrow;
+              </button>
+              <input
+                id="Search"
+                type="text"
+                placeholder="Enter Name Product"
+                onkeyup="timTheoTen(event)"
+              />
+              <!-- <button class="btn btn-sm btn-outline-danger" type="submit">Search</button> -->
+            </div>
+          </div>
+          <hr />
+          <div class="row" id="tagMobile"></div>
+        </div>
+      </div>
+    </div>
+    <!-- footer -->
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 text-center bg-dark text-white p-3 h5">
+          &COPY;2024 - Designer TTTH - Lớp LTV javaScript 292
+        </div>
+      </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="../node_modules/idb/lib/idb.js"></script>
+    <script src="../libs/Xu_ly_IndexedDB.js"></script>
+
+    <script src="../libs/modal.js"></script>
+    <script src="../libs/api.js"></script>
+    <script src="../libs/store.js"></script>
+    <script src="../libs/cart.js"></script>
+    <script src="../libs/mobile.js"></script>
+
+    <script src="../libs/locgiaMobile.js"></script>
+    <script src="../libs/carousel.js"></script>
+  </body>
+</html>
