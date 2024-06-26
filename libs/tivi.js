@@ -157,7 +157,7 @@ getAPI("listSTORE").then((result)=>{
     console.log(err);
 })
 */
-dbPromise = idb.open(db, 1);
+dbPromise = idb.openDB(db, 1);
 idbObjStore.getAll("store").then((result) => {
   store = result[0];
   xuatCuahang(store, tagStore);
